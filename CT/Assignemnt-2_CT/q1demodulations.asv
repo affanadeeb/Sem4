@@ -1,0 +1,37 @@
+clc;
+clear all;
+
+t = -0.1:1/2000000:0.1;
+
+rect = (t > -1 & t < 1); 
+
+tri = @(t) (1 - abs(t)).*(t < 1 & t > -1); 
+
+m = tri((t/0.01) + 1) - tri((t/0.01) - 1);
+
+fc = 1000000; 
+
+c = cos(2*pi*fc*t+pi/3);
+
+s = multip_modulator(m, c);
+
+
+figure;
+subplot(2,1,1);
+plot(t, m, 'b');
+xlabel('t');
+ylabel('m(t)');
+title('Given Message signal');
+
+subplot(2,1,2);
+plot(t, c, 'b');
+xlabel('t');
+ylabel('s(t)');
+title('Multiplier Modulated Signal');
+
+
+
+function s = multip_modulator(m, c)
+    s = m .* c;
+end
+

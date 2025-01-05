@@ -1,0 +1,59 @@
+function [rx,tx_out,symbols] = q4(sigma,n)
+%---------------
+
+m = 4;
+a = 0.5;
+%sigma = 0.4
+
+%n = 12000;
+Length = 10;
+bits = randbit(n);
+symbols = bpskmap(bits);
+    % Initialize parameters
+    m = 4;
+    a = 0.5;
+    % sigma = 0.4; % Uncomment if sigma is not passed as an argument
+
+    % Generate random bits and map to symbols
+    bits = randbit(n);
+    symbols = bpskmap(bits);
+
+    % Transmit filter
+    transmit_filter = raised_cosine(a, m, n);
+
+    % Upsample symbols and apply transmit filter
+    nsymbols_upsampled = 1 + (n - 1) * m;
+    symbols_upsampled = zeros(1, nsymbols_upsampled);
+    symbols_upsampled(1:m:nsymbols_upsampled) = symbols;
+    tx = conv(symbols_upsampled, transmit_filter);
+
+    % Add complex Gaussian noise
+    noise_real = normrnd(0, sigma, [size(tx)]);
+    noise_imag = normrnd(0, sigma, [size(tx)]);
+    nx = noise_real + 1j * noise_imag;
+    tx_output = tx + nx;
+
+    % Receive filter
+    rx_output = conv(tx_output, transmit_filter);
+    rx = rx_output(4 * [1:n] + nsymbols_upsampled);
+    tx_out = tx_output(1:8:length(tx_output));
+end
+
+function rc = raised_cosine(a, m, n)
+    rc = rcosdesign(a, n, m, 'sqrt');
+end
+
+
+function output = custom_convolution(x, h)
+    len_x = length(x);
+    len_h = length(h);
+    len_y = len_x + len_h - 1;
+    output = zeros(1, len_y);
+    for i = 1:len_y
+        for j = 1:min(len_h, i)
+            if i-j+1 > 0 && i-j+1 <= len_x
+                output(i) = output(i) + x(i-j+1) * h(j);
+            end
+        end
+    end
+end
