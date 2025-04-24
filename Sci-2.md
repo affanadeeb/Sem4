@@ -16,13 +16,13 @@
 
 ### Monte Carlo Pi Estimation
 * Sample points $(x,y)$ uniformly from the square $[0,1]^2$.
-* Count the number of points ($\#\text{inside}$) that fall within the quarter circle defined by $x^2+y^2\le1$.
-* Formula: $\pi\approx4\times\frac{\#\text{inside}}{N}$, where $N$ is the total number of samples.
+* Count the number of points ($\text{#inside}$) that fall within the quarter circle defined by $x^2+y^2\le1$.
+* Formula: $\pi\approx4\times\frac{\text{#inside}}{N}$, where $N$ is the total number of samples.
 
 ### Monte Carlo $\sqrt n$ Estimation
 * Sample points $x$ uniformly from the interval $[0,n]$.
-* Count the number of points ($\#(x^2\le n)$) for which $x^2\le n$.
-* Formula: $\sqrt n\approx n\times\frac{\#(x^2\le n)}{N}$.
+* Count the number of points ($\text{#}(x^2\le n)$) for which $x^2\le n$.
+* Formula: $\sqrt n\approx n\times\frac{\text{#}(x^2\le n)}{N}$.
 
 ### Inverse Transform Sampling
 * Method to sample from a probability distribution $p(y)$ given its Cumulative Distribution Function (CDF), $F(y)=\int_{-\infty}^y p(t)dt$ (or $F(y)=\int_{0}^y p(t)dt$ if defined on $[0, \infty)$).
@@ -61,7 +61,7 @@
     **A:** Mersenne Twister (used for simulations due to speed and large period), Blum Blum Shub (used in cryptography due to its security properties).
 
 * **Q:** What is the Monte Carlo formula for estimating $\pi$?
-    **A:** $\pi\approx4(\#\text{inside quadrant}/N)$, where points are sampled in a unit square and counted if inside the inscribed quadrant.
+    **A:** $\pi\approx4(\text{#inside quadrant}/N)$, where points are sampled in a unit square and counted if inside the inscribed quadrant.
 
 * **Q:** How do you use inverse transform sampling to generate samples from an exponential distribution $p(x)=\lambda e^{-\lambda x}$ for $x \ge 0$?
     **A:** Use the formula $x=-\frac1\lambda\ln(1-z)$, where $z$ is a random number drawn from $U(0,1)$. (Note: Since $1-z$ is also $U(0,1)$, $x=-\frac1\lambda\ln(z)$ is often used).
