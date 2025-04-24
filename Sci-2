@@ -1,0 +1,98 @@
+**Module 4: Monte Carlo & Randomness – Quick Revision Sheet**
+
+---
+
+## 1. Key Concepts & Formulas
+
+### Random Number Generators (RNGs)
+- **Middle-Square Method**: seed \(x_0\), square it, take middle digits; poor period.
+- **Linear Congruential Generator (LCG)**:  
+  \[ x_n = (a\,x_{n-1} + c) \bmod M \]  
+  *Full period* if: \(\gcd(c,M)=1\), \(a-1\) divisible by all prime factors of \(M\), and if \(M\) multiple of 4 then \(a-1\) divisible by 4.
+- **Mersenne Twister**: period \(2^{19937}-1\), fast, low correlation.
+- **Blum Blum Shub**: \(x_{n+1}=x_n^2\bmod M\), cryptographically secure but slow.
+
+### Testing Uniformity
+- **Mean**: over \([0,1]\), \(\lim_{N\to\infty}(1/N)\sum S_i = 0.5\).
+- **Moments**: \(\langle x^k\rangle\approx1/(k+1)\) with error \(O(1/\sqrt N)\).
+
+### Monte Carlo Pi Estimation
+- Sample \((x,y)\in[0,1]^2\). Count inside quarter circle \(x^2+y^2\le1\).  
+- **Formula**: \(\pi\approx4\times\tfrac{\#\text{inside}}{N}\).
+
+### Monte Carlo √n Estimation
+- Sample \(x\in[0,n]\). Count where \(x^2\le n\).  
+- **Formula**: \(\sqrt n\approx n\times\tfrac{\#(x^2\le n)}{N}.\)
+
+### Inverse Transform Sampling
+- Generate \(z\sim U(0,1)\).  
+- If \(F(y)=\int_0^y p(t)dt\), then set \(y=F^{-1}(z)\) to sample from \(p(y)\).
+
+### 1D Random Walk
+- Step \(\pm1\) with \(p=q=1/2\). Position \(X_n=\sum_i x_i\).
+- **Mean**: \(\mathbb E[X_n]=0\).
+- **Mean square**: \(\mathbb E[X_n^2]=n\).
+- **RMS displacement**: \(\sqrt{n}\).
+
+### Monte Carlo Integration
+- To estimate \(I=\int_a^b f(x)dx\), sample \(x_i\sim U(a,b)\):  
+  \[ I\approx(b-a)\frac1N\sum_{i=1}^N f(x_i). \]
+
+### Histograms & Binning
+1. Determine data range \([\min,\max]\).  
+2. Choose number of bins \(k\) and width \(\Delta= (\max-\min)/k\).  
+3. Count points per bin; plot counts vs. bin centers.
+
+---
+
+## 2. Flashcards
+
+1. **Q**: Write the LCG formula.  
+   **A**: \(x_n=(a\,x_{n-1}+c)\bmod M\).
+
+2. **Q**: Name two modern PRNGs and their uses.  
+   **A**: Mersenne Twister (simulations), Blum Blum Shub (cryptography).
+
+3. **Q**: Monte Carlo formula for \(\pi\).  
+   **A**: \(\pi\approx4(\#\text{inside quadrant}/N)\).
+
+4. **Q**: How to sample from exponential \(p(x)=\lambda e^{-\lambda x}\)?  
+   **A**: \(x=-\frac1\lambda\ln(1-z)\) with \(z\sim U(0,1)\).
+
+5. **Q**: RMS displacement in 1D random walk after \(n\) steps.  
+   **A**: \(\sqrt{n}\).
+
+6. **Q**: Monte Carlo integration estimator.  
+   **A**: \((b-a)(1/N)\sum f(x_i)\).
+
+7. **Q**: Conditions for full period in LCG.  
+   **A**: \(\gcd(c,M)=1\), \(a-1\) divisible by primes of \(M\), and 4 if \(M\) multiple of 4.
+
+8. **Q**: Why use Monte Carlo integration in high dimensions?  
+   **A**: Convergence rate independent of dimension (avoids curse of dimensionality).
+
+---
+
+## 3. Practice MCQs
+
+1. **Which PRNG has a period of \(2^{19937}-1\)?**  
+   A) Linear Congruential  B) Middle-Square  C) Mersenne Twister  D) Blum Blum Shub
+   
+2. **In inverse transform sampling, to sample from PDF \(p(y)\), you need:**  
+   A) Inverse of PDF  B) Inverse of CDF  C) PDF itself  D) Derivative of CDF
+   
+3. **In a 1D unbiased random walk of 100 steps, the expected \(\langle x^2\rangle\) is:**  
+   A) 10  B) 50  C) 100  D) 200
+   
+4. **Monte Carlo estimation of \(\int_0^1 x^2 dx\) with N samples uses:**  
+   A) \(\sum x_i^2/N\)  B) \(\sum x_i/N\)  C) \(\sum x_i^3/N\)  D) \(\sum (1-x_i^2)/N\)
+   
+5. **Which histogram step ensures equal bin widths?**  
+   A) Define range  B) Count points  C) Choose number of bins  D) Compute PDF
+
+*Answer Key:* 1.C 2.B 3.C 4.A 5.C
+
+---
+
+Good luck with your revision!
+
